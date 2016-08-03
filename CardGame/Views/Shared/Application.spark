@@ -16,6 +16,7 @@
    <script type="text/javascript" src="~/Content/Scripts/Vendor/jQuery.signalR/jquery.signalR-2.2.1.min.js"></script>
    <script type="text/javascript" src="~/signalr/hubs"></script>
    <script type="text/javascript" src="~/Content/Scripts/Vendor/angular/angular.min.js"></script>
+   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-sanitize.min.js"></script>
    <script type="text/javascript" src="~/Content/Scripts/cardgame-app/app.js"></script>
    <script type="text/javascript" src="~/Content/Scripts/cardgame-app/controllers.js"></script>
    <script type="text/javascript" src="~/Content/Scripts/cardgame-app/services.js"></script>

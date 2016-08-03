@@ -1,8 +1,8 @@
 ﻿'use strict';
 
 angular.module('CardGameApp')
-.controller('GameController', ['$scope', 'cardService',
-    function ($scope, cardService) {
+.controller('GameController', ['$scope', '$sanitize', 'cardService',
+    function ($scope, $sanitize, cardService) {
        var CardToString = function (card) {
           return card.Rank + ' of ' + card.Suit;
        };
@@ -12,10 +12,14 @@ angular.module('CardGameApp')
        GameHubProxy.on('ReceiveCard', function (card) {
           $scope.$apply(function () {
              $scope.Output = CardToString(card);
-             cardService.renderCard(card);
              $scope.Hand.push(card);
+             cardService.renderCard(card);
           });
        });
+
+       $scope.RenderCard = function(card) {
+          return cardService.renderCard(card);
+       };
 
        $scope.Draw = function () {
           GameHubProxy.invoke('Draw');

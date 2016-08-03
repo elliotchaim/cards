@@ -170,8 +170,7 @@ angular.module('CardGameApp')
                .append(middle)
                .append(bottomCorner);
             var newCard = newDiv('card').append(newCardInnerDiv);
-            //$document.find('#cards').html(newCardOuterDiv);
-            return newCard;
+            return newCard.html();
          }
       };
    }

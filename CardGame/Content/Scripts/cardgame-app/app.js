@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 var hubConnection = $.hubConnection();
-angular.module('CardGameApp', []).run(['$timeout',
+angular.module('CardGameApp', ['ngSanitize']).run(['$timeout',
    function ($timeout) {
       $timeout(function () {
          hubConnection.start().done(function() {});

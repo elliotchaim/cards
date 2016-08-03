@@ -2,8 +2,11 @@
   <div ng-controller="GameController">
     <p>{{ Output }}</p>
     <button ng-click="Draw()">Draw</button>
+    <div id="Hand">
+      <div ng-repeat="card in Hand" ng-bind-html="RenderCard(card)"></div>
+    </div>
   </div>
-  <div ng-controller="ChatController">
+  <div ng-controller="ChatController" hidden>
     <h1>Chat</h1>
     <button ng-click="ToggleSettings()">
       <i class="fa fa-cog" aria-hidden="true"></i>
@@ -18,87 +21,5 @@
         <strong>{{ item.Name }}</strong>: {{ item.Message }}
       </li>
     </ul>
-  </div>
-  <div id="cards">
-    <!--<div class="card" id="view62">
-      <div class="card-ten club">
-        <div class="corner top">
-          <span class="number">10</span>
-          <span>♣</span>
-        </div>
-        <span class="suit top_left">♣</span>
-        <span class="suit top_right">♣</span>
-        <span class="suit middle_top_left">♣</span>
-        <span class="suit middle_top_center">♣</span>
-        <span class="suit middle_top_right">♣</span>
-        <span class="suit bottom_left">♣</span>
-        <span class="suit bottom_right">♣</span>
-        <span class="suit middle_bottom_center">♣</span>
-        <span class="suit middle_bottom_left">♣</span>
-        <span class="suit middle_bottom_right">♣</span>
-        <div class="corner bottom">
-          <span class="number">10</span>
-          <span>♣</span>
-        </div>
-      </div>
-    </div>
-    <div class="card" id="view63">
-      <div class="card-jack club">
-        <div class="corner top">
-          <span class="number">J</span>
-          <span>♣</span>
-        </div>
-        <span class="face middle_center">
-          <img src="~/content/donpark-cards/img/faces/face-jack-club.png">
-        </span>
-        <div class="corner bottom">
-          <span class="number">J</span>
-          <span>♣</span>
-        </div>
-      </div>
-    </div>
-    <div class="card" id="view64">
-      <div class="card-queen club">
-        <div class="corner top">
-          <span class="number">Q</span>
-          <span>♣</span>
-        </div>
-        <span class="face middle_center">
-          <img src="~/content/donpark-cards/img/faces/face-queen-club.png">
-        </span>
-        <div class="corner bottom">
-          <span class="number">Q</span>
-          <span>♣</span>
-        </div>
-      </div>
-    </div>
-    <div class="card" id="view65">
-      <div class="card-king club">
-        <div class="corner top">
-          <span class="number">K</span>
-          <span>♣</span>
-        </div>
-        <span class="face middle_center">
-          <img src="~/content/donpark-cards/img/faces/face-king-club.png">
-        </span>
-        <div class="corner bottom">
-          <span class="number">K</span>
-          <span>♣</span>
-        </div>
-      </div>
-    </div>
-    <div class="card" id="view66">
-      <div class="card-ace diamond">
-        <div class="corner top">
-          <span class="number">A</span>
-          <span>♦</span>
-        </div>
-        <span class="suit middle_center">♦</span>
-        <div class="corner bottom">
-          <span class="number">A</span>
-          <span>♦</span>
-        </div>
-      </div>
-    </div>-->
   </div>
 </content>
