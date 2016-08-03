@@ -1,0 +1,1 @@
+﻿var cardGameApp = angular.module('CardGameApp', []);

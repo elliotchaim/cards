@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+    <title>Card Game</title>
+  </head>
+  <body ng-app="CardGameApp">
+    <use content="main" />
+  </body>
+  <script type="text/javascript" src="~/Content/Scripts/Vendor/jQuery/jquery-3.1.0.min.js"></script>  
+  <script type="text/javascript" src="~/Content/Scripts/Vendor/jQuery.signalR/jquery.signalR-2.2.1.min.js"></script>
+  <script type="text/javascript" src="~/signalr/hubs"></script>
+  <script type="text/javascript" src="~/Content/Scripts/Vendor/angular/angular.min.js"></script>
+  <script type="text/javascript" src="~/Content/Scripts/cardgame-app/app.js"></script>
+  <script type="text/javascript" src="~/Content/Scripts/cardgame-app/controllers.js"></script>
+
+
+  
+  <script type="text/javascript" src="~/Content/Scripts/Vendor/donpark-cards/lib/underscore-min.js"></script>
+  <script type="text/javascript" src="~/Content/Scripts/Vendor/donpark-cards/lib/backbone-min.js"></script>
+  <script type="text/javascript" src="~/Content/Scripts/Vendor/donpark-cards/lib/hogan-2.0.0.min.js"></script>
+  <script type="text/javascript" src="~/Content/Scripts/Vendor/donpark-cards/lib/jquery.flippy.js"></script>
+  <script type="text/javascript" src="~/Content/Scripts/Vendor/donpark-cards/playingcards.js"></script>
+</html>

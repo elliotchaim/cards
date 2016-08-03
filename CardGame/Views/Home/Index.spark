@@ -1,0 +1,6 @@
+﻿<content name="main">
+  <div ng-controller="GameController">
+    <p>{{ Output }}</p>
+    <button ng-click="Draw()">Draw</button>
+  </div>
+</content>
