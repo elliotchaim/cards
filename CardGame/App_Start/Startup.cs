@@ -5,11 +5,17 @@ using Microsoft.Owin;
 
 namespace CardGame
 {
-    public class Startup
+   using Microsoft.AspNet.SignalR;
+
+   public class Startup
     {
         public void Configuration(IAppBuilder app)
-        {
-            app.MapSignalR();
-        }
+      {
+         var hubConfiguration = new HubConfiguration
+         {
+            EnableDetailedErrors = true
+         };
+         app.MapSignalR( hubConfiguration );
+      }
     }
 }

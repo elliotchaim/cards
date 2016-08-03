@@ -10,9 +10,9 @@
 
     /*
     Returns HTML rendered using named template.
-    IMPL: Templates are expected to be textual content of a DOM SCRIPT element
+    IMPL: . Subsequent access Templates are expected to be textual content of a DOM SCRIPT element
     which is retrieved by ID, compiled into a function, cached, and rendered
-    on first-use. Subsequent access retrieves template rendering function from
+    on first-useretrieves template rendering function from
     cache then rendered with template parameters.
      */
 

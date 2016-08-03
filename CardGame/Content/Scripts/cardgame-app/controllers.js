@@ -1,22 +1,54 @@
-﻿cardGameApp.controller('GameController', ['$scope',
-    function ($scope) {
-        var CardToString = function (card) {
-            return card.Rank + ' of ' + card.Suit;
-        };
+﻿'use strict';
 
-        var hubConnection = $.hubConnection();
-        var GameHubProxy = hubConnection.createHubProxy('gameHub');
+angular.module('CardGameApp')
+.controller('GameController', ['$scope', 'cardService',
+    function ($scope, cardService) {
+       var CardToString = function (card) {
+          return card.Rank + ' of ' + card.Suit;
+       };
 
-        GameHubProxy.on('ReceiveCard', function (card) {
-            $scope.Output = CardToString(card);
-        });
+       var GameHubProxy = hubConnection.createHubProxy('gameHub');
 
-        hubConnection.start().done(function () {
-            $scope.Draw = function () {
-                GameHubProxy.invoke('Draw');
-            };
-        });
+       GameHubProxy.on('ReceiveCard', function (card) {
+          $scope.$apply(function () {
+             $scope.Output = CardToString(card);
+             cardService.renderCard(card);
+             $scope.Hand.push(card);
+          });
+       });
 
-        $scope.Output = '';
+       $scope.Draw = function () {
+          GameHubProxy.invoke('Draw');
+       };
+
+       $scope.Output = '';
+       $scope.Hand = [];
     }
+])
+.controller('ChatController', ['$scope',
+  function ($scope) {
+     var ChatHubProxy = hubConnection.createHubProxy('chatHub');
+
+     ChatHubProxy.on('ReceiveNewMessage', function (name, message) {
+        $scope.$apply(function () {
+           $scope.ChatHistory.push({
+              Name: name,
+              Message: message
+           });
+        });
+     });
+
+     $scope.SendMessage = function () {
+        ChatHubProxy.invoke('Send', $scope.Username, $scope.NewChatMessage);
+        $scope.NewChatMessage = '';
+     };
+
+     $scope.ToggleSettings = function () {
+        $scope.IsSettingsHidden = !$scope.IsSettingsHidden;
+     };
+
+     $scope.Username = '';
+     $scope.IsSettingsHidden = true;
+     $scope.ChatHistory = [];
+  }
 ]);

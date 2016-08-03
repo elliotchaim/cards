@@ -149,6 +149,7 @@
     <Content Include="Content\donpark-cards\img\faces\face-queen-heart.png" />
     <Content Include="Content\donpark-cards\img\faces\face-queen-spade.png" />
     <Content Include="Content\Scripts\cardgame-app\app.js" />
+    <Content Include="Content\Scripts\cardgame-app\services.js" />
     <Content Include="Content\Scripts\cardgame-app\controllers.js" />
     <Content Include="Content\donpark-cards\js\demo.js" />
     <Content Include="Content\donpark-cards\js\lib\backbone-min.js" />
@@ -219,7 +220,6 @@
     <None Include="Views\Home\Index.spark" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SparkWebMvc.cs" />
     <Compile Include="App_Start\Startup.cs" />
@@ -227,6 +227,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\GameHub.cs" />
     <Compile Include="Infrastructure\Enums\Rank.cs" />
     <Compile Include="Infrastructure\Enums\Suit.cs" />
