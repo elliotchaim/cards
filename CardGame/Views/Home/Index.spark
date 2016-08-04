@@ -6,7 +6,7 @@
       <div ng-repeat="card in Hand" ng-bind-html="RenderCard(card)"></div>
     </div>
   </div>
-  <div ng-controller="ChatController" hidden>
+  <div class="chat-window" ng-controller="ChatController">
     <h1>Chat</h1>
     <button ng-click="ToggleSettings()">
       <i class="fa fa-cog" aria-hidden="true"></i>

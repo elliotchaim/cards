@@ -8,7 +8,7 @@
 
       <title>Card Game</title>
       <link rel="stylesheet" type="text/css" href="~/Content/Styles/Shared/site.css" />
-      <link rel="stylesheet" type="text/css" href="~/Content/donpark-cards/css/playingcards.css" />
+      <link rel="stylesheet" type="text/css" href="~/Content/Styles/Game/playingcards.css" />
    </head>
    <body ng-app="CardGameApp">
       <use content="main" />
@@ -23,11 +23,4 @@
    <script type="text/javascript" src="~/Content/Scripts/cardgame-app/services.js"></script>
 
    <script src="https://use.fontawesome.com/19a048cbc2.js"></script>
-
-
-   <!--<script type="text/javascript" src="~/Content/donpark-cards/js/lib/underscore-min.js"></script>
-   <script type="text/javascript" src="~/Content/donpark-cards/js/lib/backbone-min.js"></script>
-   <script type="text/javascript" src="~/Content/donpark-cards/js/lib/hogan-2.0.0.min.js"></script>
-   <script type="text/javascript" src="~/Content/donpark-cards/js/lib/jquery.flippy.js"></script>
-   <script type="text/javascript" src="~/Content/donpark-cards/js/playingcards.js"></script>-->
 </html>

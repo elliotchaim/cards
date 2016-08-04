@@ -91,7 +91,7 @@ angular.module('CardGameApp')
             case 'queen':
             case 'king':
                contentClass = 'face';
-               innerHtml = newElement('img').prop('src', '/content/donpark-cards/img/faces/face-' + card.Rank.toLowerCase() + '-' + suitToCssClass(card.Suit) + '.png');
+               innerHtml = newElement('img').prop('src', '/Content/Images/cards/face-' + card.Rank.toLowerCase() + '-' + suitToCssClass(card.Suit) + '.png');
             case 'ace':
                suitPositions.push('middle_center');
                break;
