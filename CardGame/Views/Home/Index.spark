@@ -6,20 +6,23 @@
       <div ng-repeat="card in Hand" ng-bind-html="RenderCard(card)"></div>
     </div>
   </div>
+  
   <div class="chat-window" ng-controller="ChatController">
-    <h1>Chat</h1>
-    <button ng-click="ToggleSettings()">
-      <i class="fa fa-cog" aria-hidden="true"></i>
-    </button>
-    <div class="settings" ng-hide="IsSettingsHidden">
-      <input type="text" ng-model="Username" />
+    <div class="chat-controls">
+      <a ng-click="ToggleSettings()">
+        <i class="fa fa-cog" aria-hidden="true"></i>
+      </a>
     </div>
-    <input type="text" ng-model="NewChatMessage" />
-    <input type="button" ng-click="SendMessage()" value="Send" />
-    <ul>
-      <li ng-repeat="item in ChatHistory">
-        <strong>{{ item.Name }}</strong>: {{ item.Message }}
-      </li>
-    </ul>
+    <div class="chat-settings" ng-hide="IsSettingsHidden">
+      <h3>Settings</h3>
+      <input type="text" placeholder="Enter a username&hellip;" ng-model="Username" on-return-key="ToggleSettings()" />
+    </div>
+    <div class="chat-history">
+      <div class="chat-history-item" ng-repeat="item in ChatHistory">
+        <span><strong>{{ item.Name }}</strong> <small>{{ item.Time }}</small></span><br />
+        <span class="chat-message" ng-bind-html="item.Message"></span>
+      </div>
+    </div>
+    <input type="text" class="chat-input" placeholder="Type a message&hellip;" ng-model="NewChatMessage" ng-disabled="!HasUsername" on-return-key="SendMessage()" />
   </div>
 </content>

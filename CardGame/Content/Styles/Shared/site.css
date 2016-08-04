@@ -4,9 +4,46 @@
 
 div.chat-window {
     position: fixed;
-    bottom: 0;
-    right: 0;
+    bottom: 0px;
+    right: 0px;
     width: 300px;
     height: 100vh;
-    border: 2px solid #808080;
+    border-left: 1px solid #808080;
+}
+
+div.chat-window div.chat-settings {
+    position: absolute;
+    margin: 7%;
+    background-color: lightgray;
+    width: 86%;
+    height: 25%;
+    display: block;
+    border-radius: 7px;
+    opacity: 0.9;
+    z-index: 1;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+div.chat-window div.chat-history {
+    margin: 10px;
+}
+
+div.chat-window div.chat-history span.chat-message {
+    padding-left: 10px;
+    display: block;
+}
+
+div.chat-window div.chat-controls {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 2px;
+}
+
+div.chat-window input.chat-input {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 99%;
 }

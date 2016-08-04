@@ -20,6 +20,7 @@
    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-sanitize.min.js"></script>
    <script type="text/javascript" src="~/Content/Scripts/cardgame-app/app.js"></script>
    <script type="text/javascript" src="~/Content/Scripts/cardgame-app/controllers.js"></script>
+   <script type="text/javascript" src="~/Content/Scripts/cardgame-app/directives.js"></script>
    <script type="text/javascript" src="~/Content/Scripts/cardgame-app/services.js"></script>
 
    <script src="https://use.fontawesome.com/19a048cbc2.js"></script>
