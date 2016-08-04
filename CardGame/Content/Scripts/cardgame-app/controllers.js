@@ -1,8 +1,12 @@
 ﻿'use strict';
 
 angular.module('CardGameApp')
-.controller('GameController', ['$scope', '$sanitize', 'cardService',
-    function ($scope, $sanitize, cardService) {
+.controller('GameController', ['$scope', '$sanitize',
+    function ($scope, $sanitize) {
+        var Configuration = {
+            maxCardsInHand: 7
+        };
+
        var CardToString = function (card) {
           return card.Rank + ' of ' + card.Suit;
        };
@@ -11,22 +15,26 @@ angular.module('CardGameApp')
 
        GameHubProxy.on('ReceiveCard', function (card) {
           $scope.$apply(function () {
-             $scope.Output = CardToString(card);
+             card.IsSelected = false;
              $scope.Hand.push(card);
-             cardService.renderCard(card);
           });
        });
 
-       $scope.RenderCard = function(card) {
-          return cardService.renderCard(card);
-       };
-
        $scope.Draw = function () {
+           if ($scope.Hand.length >= Configuration.maxCardsInHand)
+               return;
           GameHubProxy.invoke('Draw');
        };
 
-       $scope.Output = '';
+       $scope.ToggleCardSelected = function (card) {
+           if ($scope.HasSelectedACard && !card.IsSelected)
+               return;
+           card.IsSelected = !card.IsSelected;
+           $scope.HasSelectedACard = !$scope.HasSelectedACard;
+       };
+
        $scope.Hand = [];
+       $scope.HasSelectedACard = false;
     }
 ])
 .controller('ChatController', ['$scope',

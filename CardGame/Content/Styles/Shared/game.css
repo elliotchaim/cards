@@ -1,0 +1,14 @@
+﻿div.card {
+    font-size: 6.25px;
+    cursor: pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;  
+    user-select: none;
+}
+
+div.selected > div.card {
+    background-color: lightskyblue;
+}

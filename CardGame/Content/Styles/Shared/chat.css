@@ -1,8 +1,4 @@
-﻿div.card {
-    font-size: 6.25px;
-}
-
-div.chat-window {
+﻿div.chat-window {
     position: fixed;
     bottom: 0px;
     right: 0px;

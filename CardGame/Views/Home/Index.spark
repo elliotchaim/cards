@@ -1,9 +1,8 @@
 ﻿<content name="main">
   <div ng-controller="GameController">
-    <p>{{ Output }}</p>
     <button ng-click="Draw()">Draw</button>
     <div id="Hand">
-      <div ng-repeat="card in Hand" ng-bind-html="RenderCard(card)"></div>
+      <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
     </div>
   </div>
   

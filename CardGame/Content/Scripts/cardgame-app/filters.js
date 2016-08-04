@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 angular.module('CardGameApp')
-.factory('cardService', ['$document',
+.filter('RenderCard', ['$document',
    function ($document) {
       var newElement = function (element, newClass) {
          var result = angular.element('<' + element + '></' + element + '>');
@@ -155,28 +155,21 @@ angular.module('CardGameApp')
          return result;
       };
 
-      return {
-          renderCard: function (card) {
-              var spanRank = () => newSpan('number').html(rankToDisplayRank(card.Rank));
-              var spanSuit = () => newSpan('span').html(suitToHtmlEntity(card.Suit));
-              var topCorner = newDiv('corner top').append(spanRank()).append(spanSuit());
-              var bottomCorner = newDiv('corner bottom').append(spanRank()).append(spanSuit());
-              var middle = renderMiddle(card);
+      return function (card) {
+            var spanRank = () => newSpan('number').html(rankToDisplayRank(card.Rank));
+            var spanSuit = () => newSpan('span').html(suitToHtmlEntity(card.Suit));
+            var topCorner = newDiv('corner top').append(spanRank()).append(spanSuit());
+            var bottomCorner = newDiv('corner bottom').append(spanRank()).append(spanSuit());
+            var middle = renderMiddle(card);
 
-              var newCardInnerDiv = newDiv('card-' + card.Rank.toLowerCase() + ' ' + suitToCssClass(card.Suit))
-                 .append(topCorner)
-                 .append(middle)
-                 .append(bottomCorner);
+            var newCardInnerDiv = newDiv('card-' + card.Rank.toLowerCase() + ' ' + suitToCssClass(card.Suit))
+                .append(topCorner)
+                .append(middle)
+                .append(bottomCorner);
 
-              var newCard = newDiv('card').html(newCardInnerDiv);
+            var newCard = newDiv('card').html(newCardInnerDiv);
 
-              console.log('inner');
-              console.log(newCardInnerDiv);
-              console.log('outer');
-              console.log(newCard);
-
-              return newCard[0].outerHTML;
-          }
-      };
+            return newCard[0].outerHTML;
+        }
    }
 ]);
