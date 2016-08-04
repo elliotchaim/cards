@@ -150,10 +150,11 @@
     <Content Include="Content\Images\cards\face-queen-spade.png" />
     <Content Include="Content\Scripts\cardgame-app\app.js" />
     <Content Include="Content\Scripts\cardgame-app\directives.js" />
-    <Content Include="Content\Scripts\cardgame-app\services.js" />
+    <Content Include="Content\Scripts\cardgame-app\filters.js" />
     <Content Include="Content\Scripts\cardgame-app\controllers.js" />
     <Content Include="Content\Styles\Game\playingcards.css" />
-    <Content Include="Content\Styles\Shared\site.css" />
+    <Content Include="Content\Styles\Shared\game.css" />
+    <Content Include="Content\Styles\Shared\chat.css" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <Content Include="Content\Scripts\Vendor\jQuery\jquery-3.1.0.slim.min.map" />
@@ -215,6 +216,7 @@
     <Compile Include="Infrastructure\Extensions\IListExtensions.cs" />
     <Compile Include="Models\CardDeck.cs" />
     <Compile Include="Models\Kernel.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayingCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

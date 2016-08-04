@@ -20,6 +20,14 @@ angular.module('CardGameApp')
           });
        });
 
+       GameHubProxy.on('GameStarted', function () {
+           $scope.IsASpectator = false;
+       });
+
+       $scope.StartGame = function () {
+           GameHubProxy.invoke('StartGame');
+       }
+
        $scope.Draw = function () {
            if ($scope.Hand.length >= Configuration.maxCardsInHand)
                return;
@@ -35,6 +43,7 @@ angular.module('CardGameApp')
 
        $scope.Hand = [];
        $scope.HasSelectedACard = false;
+       $scope.IsASpectator = true;
     }
 ])
 .controller('ChatController', ['$scope',
