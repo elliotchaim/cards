@@ -1,14 +1,25 @@
-﻿div.card {
-    font-size: 6.25px;
-    cursor: pointer;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none;   /* Chrome/Safari/Opera */
-    -khtml-user-select: none;    /* Konqueror */
-    -moz-user-select: none;      /* Firefox */
-    -ms-user-select: none;  
-    user-select: none;
+﻿div.hand-window {
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   width: 65vw;
+   height: 25vh;
+   border-top: 1px solid #808080;
 }
 
-div.selected > div.card {
-    background-color: lightskyblue;
+div.selected > div.card { background-color: lightskyblue; }
+
+div.card {
+   font-size: 5px;
+   cursor: pointer;
+   -webkit-touch-callout: none; /* iOS Safari */
+   -webkit-user-select: none; /* Chrome/Safari/Opera */
+   -khtml-user-select: none; /* Konqueror */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none;
+   user-select: none;
+}
+
+div.game-table div.card {
+   font-size: 10px;
 }

@@ -1,28 +1,36 @@
 ﻿<content name="main">
-  <div ng-controller="GameController">
-    <button ng-click="Draw()" ng-show="!IsASpectator">Draw</button>
-    <button ng-click="StartGame()" ng-show="IsASpectator">Start Game</button>
-    <div id="Hand">
-      <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
-    </div>
-  </div>
-  
-  <div class="chat-window" ng-controller="ChatController">
-    <div class="chat-controls">
-      <a ng-click="ToggleSettings()">
-        <i class="fa fa-cog" aria-hidden="true"></i>
-      </a>
-    </div>
-    <div class="chat-settings" ng-hide="IsSettingsHidden">
-      <h3>Settings</h3>
-      <input type="text" placeholder="Enter a username&hellip;" ng-model="Username" on-return-key="ToggleSettings()" />
-    </div>
-    <div class="chat-history">
-      <div class="chat-history-item" ng-repeat="item in ChatHistory">
-        <span><strong>{{ item.Name }}</strong> <small>{{ item.Time }}</small></span><br />
-        <span class="chat-message" ng-bind-html="item.Message"></span>
+   <div ng-controller="GameController">
+      <div class="game-controls">
+         <button ng-click="Draw()" ng-show="!IsASpectator">Draw</button>
+         <button ng-click="StartGame()" ng-show="IsASpectator">Start Game</button>
       </div>
-    </div>
-    <input type="text" class="chat-input" placeholder="Type a message&hellip;" ng-model="NewChatMessage" ng-disabled="!HasUsername" on-return-key="SendMessage()" />
-  </div>
+
+      <div class="game-table">
+         <div ng-bind-html="TopFaceUpCard | RenderCard"></div>
+      </div>
+
+      <div class="hand-window">
+         <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
+         <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
+      </div>
+   </div>
+
+   <div class="chat-window" ng-controller="ChatController">
+      <div class="chat-controls">
+         <a ng-click="ToggleSettings()">
+            <i class="fa fa-cog" aria-hidden="true"></i>
+         </a>
+      </div>
+      <div class="chat-settings" ng-hide="IsSettingsHidden">
+         <h3>Settings</h3>
+         <input type="text" placeholder="Enter a username&hellip;" ng-model="Username" on-return-key="ToggleSettings()" />
+      </div>
+      <div class="chat-history">
+         <div class="chat-history-item" ng-repeat="item in ChatHistory">
+            <span><strong>{{ item.Name }}</strong> <small>{{ item.Time }}</small></span><br />
+            <span class="chat-message" ng-bind-html="item.Message"></span>
+         </div>
+      </div>
+      <input type="text" class="chat-input" placeholder="Type a message&hellip;" ng-model="NewChatMessage" ng-disabled="!HasUsername" on-return-key="SendMessage()" />
+   </div>
 </content>

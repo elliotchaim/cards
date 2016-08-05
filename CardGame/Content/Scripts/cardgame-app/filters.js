@@ -1,25 +1,26 @@
 ﻿'use strict';
 
 angular.module('CardGameApp')
-.filter('RenderCard', ['$document',
-   function ($document) {
-      var newElement = function (element, newClass) {
-         var result = angular.element('<' + element + '></' + element + '>');
-         if (typeof (newClass) === 'string')
-            result.addClass(newClass);
-         return result;
-      };
+   .filter('RenderCard', [
+      '$document',
+      function($document) {
+         var newElement = function(element, newClass) {
+            var result = angular.element('<' + element + '></' + element + '>');
+            if (typeof (newClass) === 'string')
+               result.addClass(newClass);
+            return result;
+         };
 
-      var newDiv = function (newClass) {
-         return newElement('div', newClass);
-      };
+         var newDiv = function(newClass) {
+            return newElement('div', newClass);
+         };
 
-      var newSpan = function (newClass) {
-         return newElement('span', newClass);
-      };
+         var newSpan = function(newClass) {
+            return newElement('span', newClass);
+         };
 
-      var suitToCssClass = function (suit) {
-         switch (suit.toLowerCase()) {
+         var suitToCssClass = function(suit) {
+            switch (suit.toLowerCase()) {
             case 'hearts':
                return 'heart';
             case 'diamonds':
@@ -30,11 +31,11 @@ angular.module('CardGameApp')
                return 'club';
             default:
                return '';
-         }
-      };
+            }
+         };
 
-      var suitToHtmlEntity = function (suit) {
-         switch (suit.toLowerCase()) {
+         var suitToHtmlEntity = function(suit) {
+            switch (suit.toLowerCase()) {
             case 'hearts':
                return '&hearts;';
             case 'diamonds':
@@ -45,11 +46,11 @@ angular.module('CardGameApp')
                return '&clubs;';
             default:
                return '';
-         }
-      };
+            }
+         };
 
-      var rankToDisplayRank = function (rank) {
-         switch (rank.toLowerCase()) {
+         var rankToDisplayRank = function(rank) {
+            switch (rank.toLowerCase()) {
             case 'ace':
                return 'A';
             case 'two':
@@ -78,15 +79,15 @@ angular.module('CardGameApp')
                return 'K';
             default:
                return '';
-         }
-      };
+            }
+         };
 
-      var renderMiddle = function (card) {
-         var suitPositions = [];
-         var innerHtml = suitToHtmlEntity(card.Suit);
-         var contentClass = 'suit';
+         var renderMiddle = function(card) {
+            var suitPositions = [];
+            var innerHtml = suitToHtmlEntity(card.Suit);
+            var contentClass = 'suit';
 
-         switch(card.Rank.toLowerCase()) {
+            switch (card.Rank.toLowerCase()) {
             case 'jack':
             case 'queen':
             case 'king':
@@ -146,16 +147,18 @@ angular.module('CardGameApp')
                break;
             default:
                return newDiv();
-         }
+            }
 
-         var result = newDiv();
-         suitPositions.forEach(function (position) {
-            result = result.append(newSpan(contentClass + ' ' + position).html(innerHtml));
-         });
-         return result;
-      };
+            var result = newDiv();
+            suitPositions.forEach(function(position) {
+               result = result.append(newSpan(contentClass + ' ' + position).html(innerHtml));
+            });
+            return result;
+         };
 
-      return function (card) {
+         return function(card) {
+            if (!card) return null;
+
             var spanRank = () => newSpan('number').html(rankToDisplayRank(card.Rank));
             var spanSuit = () => newSpan('span').html(suitToHtmlEntity(card.Suit));
             var topCorner = newDiv('corner top').append(spanRank()).append(spanSuit());
@@ -163,13 +166,13 @@ angular.module('CardGameApp')
             var middle = renderMiddle(card);
 
             var newCardInnerDiv = newDiv('card-' + card.Rank.toLowerCase() + ' ' + suitToCssClass(card.Suit))
-                .append(topCorner)
-                .append(middle)
-                .append(bottomCorner);
+               .append(topCorner)
+               .append(middle)
+               .append(bottomCorner);
 
             var newCard = newDiv('card').html(newCardInnerDiv);
 
             return newCard[0].outerHTML;
-        }
-   }
-]);
+         }
+      }
+   ]);

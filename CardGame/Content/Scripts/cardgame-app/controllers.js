@@ -20,13 +20,31 @@ angular.module('CardGameApp')
           });
        });
 
+       GameHubProxy.on('StartTurn', function () {
+          $scope.$apply(function () {
+             $scope.IsMyTurn = true;
+          });
+       });
+
        GameHubProxy.on('GameStarted', function () {
            $scope.IsASpectator = false;
+       });
+
+       GameHubProxy.on('AddToFaceUpPile', function (card) {
+          console.log({ topcard: card });
+          $scope.$apply(function () {
+             $scope.TopFaceUpCard = card;
+             $scope.FaceUpPile.push(card);
+          });
        });
 
        $scope.StartGame = function () {
            GameHubProxy.invoke('StartGame');
        }
+
+       $scope.Swap = function() {
+          console.log($scope.Hand.find(x => x.IsSelected));
+       };
 
        $scope.Draw = function () {
            if ($scope.Hand.length >= Configuration.maxCardsInHand)
@@ -42,8 +60,11 @@ angular.module('CardGameApp')
        };
 
        $scope.Hand = [];
+       $scope.FaceUpPile = [];
+       $scope.TopFaceUpCard = null;
        $scope.HasSelectedACard = false;
        $scope.IsASpectator = true;
+       $scope.IsMyTurn = false;
     }
 ])
 .controller('ChatController', ['$scope',
