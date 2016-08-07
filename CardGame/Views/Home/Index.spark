@@ -1,8 +1,10 @@
 ﻿<content name="main">
    <div ng-controller="GameController">
+     <h1 ng-show="IsMyTurn">YOUR TURN</h1>
       <div class="game-controls">
          <button ng-click="Draw()" ng-show="!IsASpectator">Draw</button>
-         <button ng-click="StartGame()" ng-show="IsASpectator">Start Game</button>
+         <button ng-click="StartGame()" ng-show="true">Start Game</button>
+         <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
       </div>
 
       <div class="game-table">
@@ -11,7 +13,6 @@
 
       <div class="hand-window">
          <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
-         <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
       </div>
    </div>
 

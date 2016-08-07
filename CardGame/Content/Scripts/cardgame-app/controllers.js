@@ -1,8 +1,8 @@
 ﻿'use strict';
 
 angular.module('CardGameApp')
-.controller('GameController', ['$scope', '$sanitize',
-    function ($scope, $sanitize) {
+.controller('GameController', ['$scope',
+    function ($scope) {
         var Configuration = {
             maxCardsInHand: 7
         };
@@ -28,14 +28,24 @@ angular.module('CardGameApp')
 
        GameHubProxy.on('GameStarted', function () {
            $scope.IsASpectator = false;
+           $scope.GameStarted = true;
        });
 
-       GameHubProxy.on('AddToFaceUpPile', function (card) {
-          console.log({ topcard: card });
+       GameHubProxy.on('AddToFaceUpPile', function (card, lastCardWasSwapped) {
           $scope.$apply(function () {
-             $scope.TopFaceUpCard = card;
-             $scope.FaceUpPile.push(card);
+             //$scope.TopFaceUpCard = card;
+             $scope.FaceUpPile.unshift(card);
           });
+       });
+
+       GameHubProxy.on('RemoveTopCardFromFaceUpPile', function () {
+           $scope.$apply(function () {
+               $scope.FaceUpPile.slice(0, $scope.FaceUpPile.length);
+           });
+       });
+
+       $scope.$watchCollection('FaceUpPile', function () {
+           $scope.TopFaceUpCard = $scope.FaceUpPile[0];
        });
 
        $scope.StartGame = function () {
@@ -43,7 +53,18 @@ angular.module('CardGameApp')
        }
 
        $scope.Swap = function() {
-          console.log($scope.Hand.find(x => x.IsSelected));
+           var cardInHandIndex = $scope.Hand.findIndex(x => x.IsSelected);
+           var cardInHand = $scope.Hand[cardInHandIndex];
+           cardInHand.IsSelected = false;
+           $scope.HasSelectedACard = false;
+           $scope.Hand[cardInHandIndex] = $scope.TopFaceUpCard;
+           $scope.TopFaceUpCard = cardInHand;
+           $scope.EndTurn(cardInHand, true);
+       };
+
+       $scope.EndTurn = function (newCard, wasSwapped) {
+           $scope.IsMyTurn = false;
+           GameHubProxy.invoke('EndTurn', newCard, wasSwapped);
        };
 
        $scope.Draw = function () {
@@ -65,6 +86,7 @@ angular.module('CardGameApp')
        $scope.HasSelectedACard = false;
        $scope.IsASpectator = true;
        $scope.IsMyTurn = false;
+       $scope.GameStarted = false;
     }
 ])
 .controller('ChatController', ['$scope',
