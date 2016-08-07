@@ -1,14 +1,24 @@
 ﻿<content name="main">
    <div ng-controller="GameController">
-     <h1 ng-show="IsMyTurn">YOUR TURN</h1>
+      <h1 ng-show="IsMyTurn">YOUR TURN</h1>
       <div class="game-controls">
-         <button ng-click="Draw()" ng-show="!IsASpectator">Draw</button>
          <button ng-click="StartGame()" ng-show="true">Start Game</button>
          <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
+         <button ng-click="Draw()" ng-show="IsMyTurn && !HasDrawn && !HasSelectedACard">Draw</button>
+         <button ng-click="EndTurn()" ng-show="HasDrawn && !HasSelectedACard">End Turn</button>
       </div>
 
       <div class="game-table">
+         <div class="card">
+            <div class="card-back">
+               <span class="middle_center">
+                  <img src="/Content/Images/cards/back.png" />
+               </span>
+            </div>
+         </div>
          <div ng-bind-html="TopFaceUpCard | RenderCard"></div>
+         <br />
+         <div ng-bind-html="DrawnCard | RenderCard"></div>
       </div>
 
       <div class="hand-window">
@@ -28,7 +38,11 @@
       </div>
       <div class="chat-history">
          <div class="chat-history-item" ng-repeat="item in ChatHistory">
-            <span><strong>{{ item.Name }}</strong> <small>{{ item.Time }}</small></span><br />
+            <span>
+               <strong>{{ item.Name }}</strong>
+               <small>{{ item.Time }}</small>
+            </span>
+            <br />
             <span class="chat-message" ng-bind-html="item.Message"></span>
          </div>
       </div>
