@@ -1,8 +1,8 @@
 ﻿'use strict';
 
 angular.module('CardGameApp')
-.controller('GameController', ['$scope',
-    function ($scope) {
+.controller('GameController', ['$scope', 'PlayingCardService',
+    function ($scope, PlayingCardService) {
        var Configuration = {
           maxCardsInHand: 7
        };
@@ -51,6 +51,17 @@ angular.module('CardGameApp')
           $scope.TopFaceUpCard = $scope.FaceUpPile[0];
        });
 
+       $scope.$watchCollection('Hand', function () {
+          console.log(PlayingCardService.sort($scope.Hand));
+          if (IsWinningHand($scope.Hand)) {
+             console.log('BOO YA - I WIN!');
+          }
+       });
+
+       var IsWinningHand = function (hand) {
+          return false;
+       };
+
        $scope.StartGame = function () {
           GameHubProxy.invoke('StartGame');
        }
@@ -94,7 +105,7 @@ angular.module('CardGameApp')
        };
 
        $scope.ToggleCardSelected = function (card) {
-          if ($scope.HasSelectedACard && !card.IsSelected)
+          if (!$scope.IsMyTurn || ($scope.HasSelectedACard && !card.IsSelected))
              return;
           card.IsSelected = !card.IsSelected;
           $scope.HasSelectedACard = !$scope.HasSelectedACard;

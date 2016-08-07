@@ -150,6 +150,7 @@
     <Content Include="Content\Images\cards\face-queen-spade.png" />
     <Content Include="Content\Scripts\cardgame-app\app.js" />
     <Content Include="Content\Scripts\cardgame-app\directives.js" />
+    <Content Include="Content\Scripts\cardgame-app\services.js" />
     <Content Include="Content\Scripts\cardgame-app\filters.js" />
     <Content Include="Content\Scripts\cardgame-app\controllers.js" />
     <Content Include="Content\Styles\Game\playingcards.css" />
