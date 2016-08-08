@@ -3,6 +3,7 @@
   <PropertyGroup>
     <ProjectView>ProjectFiles</ProjectView>
     <UseIISExpress>true</UseIISExpress>
+    <NameOfLastUsedPublishProfile>elliotchaim - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

@@ -173,6 +173,8 @@
     <Content Include="Content\Fonts\cards\suit-regular.eot" />
     <Content Include="Content\Fonts\cards\suit-regular.ttf" />
     <Content Include="Content\Fonts\cards\suit-regular.woff" />
+    <None Include="Properties\PublishProfiles\elliotchaim - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\elliotchaim - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

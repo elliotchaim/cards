@@ -1,4 +1,5 @@
 .vs/
+packages/
 CardGame/bin/
 CardGame/obj/
-packages/
+CardGame/Properties/PublishProfiles/
