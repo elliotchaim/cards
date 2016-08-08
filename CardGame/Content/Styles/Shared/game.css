@@ -1,8 +1,4 @@
-﻿body {
-   background-color: green;
-}
-
-div.hand-window {
+﻿div.hand-window {
    position: fixed;
    bottom: 0;
    left: 0;

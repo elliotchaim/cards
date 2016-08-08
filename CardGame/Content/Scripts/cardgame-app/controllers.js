@@ -30,13 +30,11 @@ angular.module('CardGameApp')
        });
 
        GameHubProxy.on('GameStarted', function () {
-          $scope.IsASpectator = false;
           $scope.GameStarted = true;
        });
 
-       GameHubProxy.on('AddToFaceUpPile', function (card, lastCardWasSwapped) {
+       GameHubProxy.on('AddToFaceUpPile', function (card) {
           $scope.$apply(function () {
-             //$scope.TopFaceUpCard = card;
              $scope.FaceUpPile.unshift(card);
           });
        });
@@ -44,6 +42,18 @@ angular.module('CardGameApp')
        GameHubProxy.on('RemoveTopCardFromFaceUpPile', function () {
           $scope.$apply(function () {
              $scope.FaceUpPile.slice(0, $scope.FaceUpPile.length);
+          });
+       });
+
+       GameHubProxy.on('AddToAvailableGames', function (games) {
+          $scope.$apply(function () {
+             Array.prototype.push.apply($scope.AvailableGames, games);
+          });
+       });
+
+       GameHubProxy.on('AddToGame', function (gameId) {
+          $scope.$apply(function () {
+             $scope.CurrentGameId = gameId;
           });
        });
 
@@ -63,7 +73,7 @@ angular.module('CardGameApp')
        };
 
        $scope.StartGame = function () {
-          GameHubProxy.invoke('StartGame');
+          GameHubProxy.invoke('StartGame', $scope.CurrentGameId);
        }
 
        $scope.Swap = function () {
@@ -91,16 +101,15 @@ angular.module('CardGameApp')
              $scope.DrawnCard = null;
              $scope.HasDrawn = false;
              if (newTopFaceUpCard === undefined) {
-                console.log('here')
-                GameHubProxy.invoke('EndTurn', drawnCard, false)
+                GameHubProxy.invoke('EndTurn', $scope.CurrentGameId, drawnCard, false);
                 return;
              }
           }
-          GameHubProxy.invoke('EndTurn', newTopFaceUpCard, wasSwapped);
+          GameHubProxy.invoke('EndTurn', $scope.CurrentGameId, newTopFaceUpCard, wasSwapped);
        };
 
        $scope.Draw = function () {
-          GameHubProxy.invoke('Draw');
+          GameHubProxy.invoke('Draw', $scope.CurrentGameId);
           $scope.HasDrawn = true;
        };
 
@@ -111,13 +120,26 @@ angular.module('CardGameApp')
           $scope.HasSelectedACard = !$scope.HasSelectedACard;
        };
 
+       $scope.CreateGame = function () {
+          if ($scope.NewGameName && $scope.NewGameName !== '') {
+             GameHubProxy.invoke('CreateGame', $scope.NewGameName);
+             $scope.NewGameName = '';
+          }
+       };
+
+       $scope.JoinGame = function (id) {
+          GameHubProxy.invoke('JoinGame', id);
+       };
+
+       $scope.CurrentGameId = null;
+       $scope.AvailableGames = [];
+
        $scope.Hand = [];
        $scope.FaceUpPile = [];
        $scope.TopFaceUpCard = null;
        $scope.DrawnCard = null;
        $scope.HasDrawn = false;
        $scope.HasSelectedACard = false;
-       $scope.IsASpectator = true;
        $scope.IsMyTurn = false;
        $scope.GameStarted = false;
     }

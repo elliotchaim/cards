@@ -1,32 +1,42 @@
 ﻿<content name="main">
    <div ng-controller="GameController">
-      <h1 ng-show="IsMyTurn">YOUR TURN</h1>
-      <div class="game-controls">
-         <button ng-click="StartGame()" ng-show="true">Start Game</button>
-         <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
-         <button ng-click="Draw()" ng-show="IsMyTurn && !HasDrawn && !HasSelectedACard">Draw</button>
-         <button ng-click="EndTurn()" ng-show="HasDrawn && !HasSelectedACard">End Turn</button>
-      </div>
-
-      <div class="game-table">
-         <div class="card">
-            <div class="card-back">
-               <span class="middle_center">
-                  <img src="/Content/Images/cards/back.png" />
-               </span>
-            </div>
+      <div class="directory" ng-show="CurrentGameId == null">
+         <h1>Available Games</h1>
+         <div ng-repeat="game in AvailableGames">
+            <span>{{game.Name}} <a href ng-click="JoinGame(game.Id)">Join</a></span>
          </div>
-         <div ng-bind-html="TopFaceUpCard | RenderCard"></div>
-         <br />
-         <div ng-bind-html="DrawnCard | RenderCard"></div>
+         <input type="text" ng-model="NewGameName" />
+         <button ng-click="CreateGame()">Create New Game</button>
       </div>
+      <div class="game" ng-show="CurrentGameId != null">
+         <h1 ng-show="IsMyTurn">YOUR TURN</h1>
+         <div class="game-controls">
+            <button ng-click="StartGame()" ng-show="true">Start Game</button>
+            <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
+            <button ng-click="Draw()" ng-show="IsMyTurn && !HasDrawn && !HasSelectedACard">Draw</button>
+            <button ng-click="EndTurn()" ng-show="HasDrawn && !HasSelectedACard">End Turn</button>
+         </div>
 
-      <div class="hand-window">
-         <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
+         <div class="game-table">
+            <div class="card">
+               <div class="card-back">
+                  <span class="middle_center">
+                     <img src="/Content/Images/cards/back.png" />
+                  </span>
+               </div>
+            </div>
+            <div ng-bind-html="TopFaceUpCard | RenderCard"></div>
+            <br />
+            <div ng-bind-html="DrawnCard | RenderCard"></div>
+         </div>
+
+         <div class="hand-window">
+            <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
+         </div>
       </div>
    </div>
 
-   <div class="chat-window" ng-controller="ChatController">
+   <div class="chat-window" ng-controller="ChatController" hidden>
       <div class="chat-controls">
          <a ng-click="ToggleSettings()">
             <i class="fa fa-cog" aria-hidden="true"></i>

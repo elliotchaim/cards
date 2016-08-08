@@ -9,73 +9,69 @@
    {
       public override Task OnConnected()
       {
-         //if( !Kernel.Instance.GameStarted )
-         //{
-         Kernel.Instance.Players.Add(new Player
-         {
-            ConnectionId = Context.ConnectionId
-         });
-         //}
+         Clients.Caller.AddToAvailableGames( Kernel.Instance.AvailableGames() );
          return base.OnConnected();
       }
 
-      public override Task OnDisconnected( bool stopCalled )
+      public void CreateGame( string name )
       {
-         Kernel.Instance.Players.Remove(new Player
-         {
-            ConnectionId = Context.ConnectionId
-         });
-         return base.OnDisconnected(stopCalled);
+         Clients.All.AddToAvailableGames( new[] { Kernel.Instance.CreateGame( name ) } );
       }
 
-      public void Draw()
+      public void JoinGame( string gameId )
       {
-         Clients.Caller.ReceiveCard(Kernel.Instance.Deck.Draw());
+         Kernel.Instance.AddToGame( gameId, Context.ConnectionId );
+         Groups.Add( Context.ConnectionId, gameId );
+         Clients.Caller.AddToGame( gameId );
       }
 
-      public void AddToFaceUpPile( PlayingCard card )
+      public void Draw( string gameId )
       {
-         Clients.All.AddToFaceUpPile(card);
+         Clients.Caller.ReceiveCard( Kernel.Instance.Games[ gameId ].Deck.Draw() );
       }
 
-      public void RemoveTopCardFromFaceUpPile()
+      public void StartGame( string gameId )
       {
-         Clients.All.RemoveTopCardFromFaceUpPile();
+         if( Kernel.Instance.Games[ gameId ].Players.Count < 2 )
+            return;
+
+         Kernel.Instance.Games[ gameId ].Started = true;
+         Clients.Group( gameId ).GameStarted();
+
+         DealCards( gameId );
+         AddToFaceUpPile( gameId, Kernel.Instance.Games[ gameId ].Deck.Draw() );
+
+         Clients.Client( Kernel.Instance.Games[ gameId ].Players[ Kernel.Instance.Games[ gameId ].CurrentTurnPlayer ].ConnectionId ).StartTurn();
       }
 
-      public void StartGame()
-      {
-         //if( Kernel.Instance.Players.Count < 2 )
-         //   return;
-
-         Kernel.Instance.GameStarted = true;
-         Clients.All.GameStarted();
-
-         Kernel.Instance.Deck = new CardDeck();
-         DealCards();
-         AddToFaceUpPile(Kernel.Instance.Deck.Draw());
-
-         Clients.Client(Kernel.Instance.Players[ Kernel.Instance.CurrentTurnPlayer ].ConnectionId).StartTurn();
-      }
-
-      public void EndTurn( PlayingCard newTopCard, bool LastCardWasSwapped )
+      public void EndTurn( string gameId, PlayingCard newTopCard, bool LastCardWasSwapped )
       {
          if( LastCardWasSwapped )
-            RemoveTopCardFromFaceUpPile();
-         AddToFaceUpPile(newTopCard);
-         Kernel.Instance.CurrentTurnPlayer = ( Kernel.Instance.CurrentTurnPlayer == Kernel.Instance.Players.Count - 1 )
-             ? 0
-             : Kernel.Instance.CurrentTurnPlayer + 1;
-         Clients.Client(Kernel.Instance.Players[ Kernel.Instance.CurrentTurnPlayer ].ConnectionId).StartTurn();
+            RemoveTopCardFromFaceUpPile( gameId );
+         AddToFaceUpPile( gameId, newTopCard );
+         Kernel.Instance.Games[ gameId ].CurrentTurnPlayer = ( Kernel.Instance.Games[ gameId ].CurrentTurnPlayer == Kernel.Instance.Games[ gameId ].Players.Count - 1 )
+                                                                ? 0
+                                                                : Kernel.Instance.Games[ gameId ].CurrentTurnPlayer + 1;
+         Clients.Client( Kernel.Instance.Games[ gameId ].Players[ Kernel.Instance.Games[ gameId ].CurrentTurnPlayer ].ConnectionId ).StartTurn();
       }
 
-      private void DealCards()
+      private void AddToFaceUpPile( string gameId, PlayingCard card )
       {
-         foreach( var i in Enumerable.Range(1, 7) )
+         Clients.Group( gameId ).AddToFaceUpPile( card );
+      }
+
+      private void RemoveTopCardFromFaceUpPile( string gameId )
+      {
+         Clients.Group( gameId ).RemoveTopCardFromFaceUpPile();
+      }
+
+      private void DealCards( string gameId )
+      {
+         foreach( var i in Enumerable.Range( 1, 7 ) )
          {
-            foreach( var player in Kernel.Instance.Players )
+            foreach( var player in Kernel.Instance.Games[ gameId ].Players )
             {
-               Clients.Client(player.ConnectionId).ReceiveCard(Kernel.Instance.Deck.Draw());
+               Clients.Client( player.ConnectionId ).ReceiveCard( Kernel.Instance.Games[ gameId ].Deck.Draw() );
             }
          }
       }

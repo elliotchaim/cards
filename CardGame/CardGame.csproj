@@ -223,9 +223,8 @@
     <Compile Include="Infrastructure\Enums\Rank.cs" />
     <Compile Include="Infrastructure\Enums\Suit.cs" />
     <Compile Include="Infrastructure\Extensions\IListExtensions.cs" />
-    <Compile Include="Infrastructure\WindsorControllerFactory.cs" />
-    <Compile Include="Installers\ControllersInstaller.cs" />
     <Compile Include="Models\CardDeck.cs" />
+    <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Kernel.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayingCard.cs" />
