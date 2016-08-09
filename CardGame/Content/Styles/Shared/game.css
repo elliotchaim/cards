@@ -1,15 +1,22 @@
-﻿div.hand-window {
+﻿body {
+   background: rgb(25, 103, 1);
+   color: white;
+}
+
+div.hand-window {
    position: fixed;
-   bottom: 0;
-   left: 0;
-   width: 65vw;
+   bottom: 100px;
+   left: 27.5vw;
+   min-width: 45vw;
    height: 25vh;
-   border-top: 1px solid #808080;
+   background-color: rgba(0, 0, 0, 0.25);
+   padding: 20px;
 }
 
 div.selected > div.card { background-color: lightskyblue; }
 
 div.card {
+   color: black;
    font-size: 5px;
    cursor: pointer;
    -webkit-touch-callout: none; /* iOS Safari */
