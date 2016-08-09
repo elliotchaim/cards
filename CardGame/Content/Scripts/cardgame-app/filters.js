@@ -172,7 +172,7 @@ angular.module('CardGameApp')
 
             var newCard = newDiv('card').html(newCardInnerDiv);
 
-            return newCard[0].outerHTML;
+            return newCardInnerDiv[0].outerHTML;
          }
       }
    ]);

@@ -13,7 +13,7 @@ div.hand-window {
    padding: 20px;
 }
 
-div.selected > div.card { background-color: lightskyblue; }
+div.card.selected { background-color: lightskyblue; }
 
 div.card {
    color: black;

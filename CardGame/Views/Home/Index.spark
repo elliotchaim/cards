@@ -19,16 +19,23 @@
                   </span>
                </div>
             </div>
-            <div ng-bind-html="TopFaceUpCard | RenderCard"></div>
+            <div class="card" ng-show="TopFaceUpCard != null">
+               <div ng-bind-html="TopFaceUpCard | RenderCard"></div>
+            </div>
             <br />
-            <div ng-bind-html="DrawnCard | RenderCard"></div>
-         </div>
+            <div class="card" ng-show="DrawnCard != null">
+               <div ng-bind-html="DrawnCard | RenderCard"></div>
+            </div>
+            </div>
 
          <div class="hand-window">
             
-            <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" style="position: relative; left: {{50 * (1 - $index)}}px" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
+            <div ng-repeat="card in Hand" style="position: relative; left: {{50 * (1 - $index)}}px;" ng-click="ToggleCardSelected(card)">
+               <div class="card" style="background-color: {{card.Colour}};" ng-class="{selected: card.IsSelected}" ng-bind-html="card | RenderCard"></div>
+            </div>
             <div class="game-controls">
-               <button ng-click="StartGame()" ng-show="true">Start Game</button>
+               <button ng-click="StartGame()" ng-show="!GameStarted">Start Game</button>
+               <button ng-click="SortHand()" ng-show="GameStarted">Sort</button>
                <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
                <button ng-click="Draw()" ng-show="IsMyTurn && !HasDrawn && !HasSelectedACard">Draw</button>
                <button ng-click="EndTurn()" ng-show="HasDrawn && !HasSelectedACard">End Turn</button>
@@ -37,7 +44,7 @@
       </div>
    </div>
 
-   <div class="chat-window" ng-controller="ChatController" hidden>
+   <div class="chat-window" ng-controller="ChatController" >
       <div class="chat-controls">
          <a ng-click="ToggleSettings()">
             <i class="fa fa-cog" aria-hidden="true"></i>
