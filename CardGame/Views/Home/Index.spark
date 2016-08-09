@@ -31,7 +31,7 @@
          </div>
 
          <div class="hand-window">
-            <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
+            <div ng-repeat="card in Hand" ng-class="{selected: card.IsSelected}" style="position: relative; left: {{50 * (1 - $index)}}px" ng-click="ToggleCardSelected(card)" ng-bind-html="card | RenderCard"></div>
          </div>
       </div>
    </div>
