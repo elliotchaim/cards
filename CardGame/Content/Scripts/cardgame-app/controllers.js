@@ -64,15 +64,9 @@ angular.module('CardGameApp')
        $scope.$watchCollection('Hand', function () {
           console.log(angular.toJson($scope.Hand));
           if (PlayingCardService.isWinningHand($scope.Hand)) {
-             console.log('BOO YA - I WIN!');
+             $scope.GameEnded = true;
           }
        });
-
-       var setColours = function() {
-          angular.forEach($scope.Hand, function (card, cardIndex, hand) {
-             card.Colour = Math.floor(Math.random() * 2) ? 'lightgreen' : 'lightsalmon';
-          });
-       }
 
        $scope.SortHand = function() {
           PlayingCardService.sort($scope.Hand);
@@ -148,6 +142,7 @@ angular.module('CardGameApp')
        $scope.HasSelectedACard = false;
        $scope.IsMyTurn = false;
        $scope.GameStarted = false;
+       $scope.GameEnded = false;
     }
 ])
 .controller('ChatController', ['$scope',

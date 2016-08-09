@@ -29,13 +29,12 @@
             </div>
 
          <div class="hand-window">
-            
             <div ng-repeat="card in Hand" style="position: relative; left: {{50 * (1 - $index)}}px;" ng-click="ToggleCardSelected(card)">
                <div class="card" style="background-color: {{card.Colour}};" ng-class="{selected: card.IsSelected}" ng-bind-html="card | RenderCard"></div>
             </div>
             <div class="game-controls">
                <button ng-click="StartGame()" ng-show="!GameStarted">Start Game</button>
-               <button ng-click="SortHand()" ng-show="GameStarted">Sort</button>
+               <button ng-click="SortHand()" ng-show="GameStarted && !GameEnded">Sort</button>
                <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
                <button ng-click="Draw()" ng-show="IsMyTurn && !HasDrawn && !HasSelectedACard">Draw</button>
                <button ng-click="EndTurn()" ng-show="HasDrawn && !HasSelectedACard">End Turn</button>
