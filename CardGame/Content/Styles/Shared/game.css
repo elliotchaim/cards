@@ -1,23 +1,26 @@
-﻿body {
+﻿html {
+   font-family: "Helvetica Neue", Helvetica, sans-serif;
+}
+
+body {
    background: rgb(25, 103, 1);
    color: white;
 }
 
-.hand-window {
-   bottom: 100px;
-   left: 27.5vw;
-   max-width: 60vw;
-   height: 25vh;
-   background-color: rgba(0, 0, 0, 0.25);
-   padding: 20px;
-   max-height: 150px;
+#winners-scrolly-scroll {
+   position: absolute;
+   z-index: 50000;
+   background: rgba(255,0,255,0.5);
+   top: 50%;
+   right: 0;
+   left: 0;
+   transform: translateY(-50%);
 }
 
-   .hand-window .hand {
-      position: relative;
-      padding: 15px;
-      display: flex;
-   }
+#winners-scrolly-scroll marquee {
+   font-size: 25vh;
+   text-shadow: 0.1em 0.1em 0 blue;
+}
 
 .card.selected {
    background-color: lightskyblue;
@@ -27,14 +30,19 @@
    color: black;
    font-size: 5px;
    cursor: pointer;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
    user-select: none;
 }
 
-.game-table .card {
-   font-size: 10px;
-}
+   .card.placeholder {
+      background-color: rgba(0, 0, 0, 0.1);
+      cursor: default;
+   }
 
-.flex-container {
+.game {
+   height: 80vh;
    display: flex;
    flex-direction: column;
    flex-wrap: nowrap;
@@ -43,26 +51,80 @@
    align-items: stretch;
 }
 
-.flex-item:nth-child(1) {
+   .game .notifications {
+      order: 0;
+      flex: 0 1 auto;
+      align-self: stretch;
+   }
+
+   .game .opponents {
+      order: 0;
+      flex: 0 1 auto;
+      align-self: center;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+      align-content: stretch;
+      align-items: flex-start;
+      width: 100vw;
+      min-height: 20vh;
+   }
+
+      .game .opponents .opponent {
+         order: 0;
+         flex: 0 1 auto;
+         align-self: auto;
+         display: flex;
+         flex-direction: column;
+         flex-wrap: nowrap;
+         justify-content: space-around;
+         align-content: stretch;
+         align-items: flex-start;
+      }
+
+      .game .opponents .opponent .name {
+         order: 0;
+         flex: 0 1 auto;
+         align-self: auto;
+      }
+
+      .game .opponents .opponent .cards {
+         order: 0;
+         flex: 0 1 auto;
+         align-self: auto;
+      }
+
+      .game .opponents .opponent .cards .card {
+         font-size: 4px;
+      }
+
+   .game .game-table {
+      order: 0;
+      flex: 0 0 auto;
+      align-self: center;
+   }
+
+.game-table .card {
+   font-size: 10px;
+   cursor: default;
+}
+
+.game .hand-window {
    order: 0;
    flex: 0 1 auto;
    align-self: center;
+   bottom: 100px;
+   left: 27.5vw;
+   max-width: 60vw;
+   height: 25vh;
+   background-color: rgba(0, 0, 0, 0.25);
+   padding: 20px;
+   max-height: 150px;
 }
 
-.flex-item:nth-child(2) {
-   order: 0;
-   flex: 1 0 auto;
-   align-self: center;
-}
-
-.flex-item:nth-child(3) {
-   order: 0;
-   flex: 0 1 auto;
-   align-self: center;
-}
-
-.flex-item:nth-child(4) {
-    order: 1;
-    flex: 0 1 auto;
-    align-self: stretch;
-    }
+   .game .hand-window .hand {
+      position: relative;
+      padding: 15px;
+      display: flex;
+   }

@@ -59,11 +59,6 @@ angular.module('CardGameApp')
          };
 
          var markAnySetWithCardAtIndex = function (hand, startIndex) {
-            console.log({
-               method: 'markAnySetWithCardAtIndex',
-               hand: hand,
-               startIndex: startIndex
-            });
             var count = 1;
             var i = startIndex + 1;
             while (hand[i] && hand[startIndex].Rank === hand[i].Rank) {
@@ -91,16 +86,11 @@ angular.module('CardGameApp')
          };
 
          var markAnyRunWithCardStartingAt = function (hand, index) {
-            console.log({
-               method: 'markAnyRunWithCardStartingAt',
-               hand: hand,
-               index: index
-            });
             var run = hand.filter(x => !x.Checked && x.Suit === hand[index].Suit);
             if (run.length < 3)
                return false;
             sort(run);
-            console.log(run);
+
             if (!cardsAreConsecutive(run))
                return false;
 
@@ -127,10 +117,8 @@ angular.module('CardGameApp')
             var cards = sort(input);
 
             for (var i = 0; i < 7; i++) {
-               console.log(i);
                if (cards[i].Checked || markAnyRunWithCardStartingAt(cards, i) || markAnySetWithCardAtIndex(cards, i))
                   continue;
-               console.log(i);
                return false;
             }
 

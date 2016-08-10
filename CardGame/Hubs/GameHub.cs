@@ -63,17 +63,18 @@
 
       public void StartGame( string gameId )
       {
-         if( Kernel.Instance.Games[ gameId ].Players.Count < 2 )
+         var game = Kernel.Instance.Games[ gameId ];
+         if( game.Players.Count < 2 )
             return;
 
-         Kernel.Instance.Games[ gameId ].Started = true;
-         Clients.Group( gameId ).GameStarted();
+         game.Started = true;
+         Clients.Group( gameId ).GameStarted(game.Players);
          UpdateGamesDirectory();
 
          DealCards( gameId );
-         AddToFaceUpPile( gameId, Kernel.Instance.Games[ gameId ].Deck.Draw() );
+         AddToFaceUpPile( gameId, game.Deck.Draw() );
 
-         Clients.Client( Kernel.Instance.Games[ gameId ].Players[ Kernel.Instance.Games[ gameId ].CurrentTurnPlayer ].ConnectionId ).StartTurn();
+         Clients.Client( game.Players[ game.CurrentTurnPlayer ].ConnectionId ).StartTurn();
       }
 
       public void EndTurn( string gameId, PlayingCard newTopCard, bool LastCardWasSwapped )

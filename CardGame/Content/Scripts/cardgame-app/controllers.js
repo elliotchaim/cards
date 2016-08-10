@@ -36,8 +36,9 @@ angular.module('CardGameApp')
           });
        });
 
-       GameHubProxy.on('GameStarted', function () {
+       GameHubProxy.on('GameStarted', function (opponents) {
           $scope.GameStarted = true;
+          $scope.Opponents = opponents.filter( x => x.Name != $rootScope.Name );
        });
 
        GameHubProxy.on('AddToFaceUpPile', function (card) {
@@ -54,7 +55,6 @@ angular.module('CardGameApp')
 
        GameHubProxy.on('UpdateGamesDirectory', function (availableGames) {
           $scope.$apply(function () {
-             console.log(availableGames);
              $scope.AvailableGames = availableGames;
           });
        });
@@ -77,9 +77,9 @@ angular.module('CardGameApp')
        });
 
        $scope.$watchCollection('Hand', function () {
-          console.log(angular.toJson($scope.Hand));
           if (PlayingCardService.isWinningHand($scope.Hand)) {
              $scope.GameEnded = true;
+             $scope.HasWon = true;
           }
        });
 
@@ -159,6 +159,8 @@ angular.module('CardGameApp')
        $scope.GameEnded = false;
        $scope.GameAbandoned = false;
        $scope.Notifications = [];
+       $scope.Opponents = [];
+       $scope.HasWon = false;
     }
 ])
 .controller('ChatController', ['$scope',

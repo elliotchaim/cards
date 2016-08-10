@@ -3,6 +3,9 @@
       <input type="text" ng-model="nameInput" on-return-key="SubmitName(nameInput)" placeholder="Please enter your name..." ng-show="Name == null" />
    </div>
    <div ng-controller="GameController">
+      <div id="winners-scrolly-scroll" ng-show="HasWon">
+         <marquee scrollamount="50">YOU WIN!!1!</marquee>
+      </div>
       <div ng-show="Name != null">
          <div class="game-directory" ng-show="CurrentGameId == null">
             <h1>Available Games</h1>
@@ -25,8 +28,29 @@
             <input type="text" ng-model="NewGameName" on-return-key="CreateGame()" />
             <button ng-click="CreateGame()">Create New Game</button>
          </div>
-         <div class="game flex-container" ng-show="CurrentGameId != null">
-            <div class="game-table flex-item">
+         <div class="game" ng-show="CurrentGameId != null">
+            <div class="notifications">
+               <ul>
+                  <li ng-repeat="notification in Notifications">{{notification}}</li>
+               </ul>
+            </div>
+            <div class="opponents">
+               <div class="opponent" ng-repeat="opponent in Opponents">
+                  <div class="cards">
+                     <div class="card" ng-repeat="x in [1,2,3,4,5,6,7]" style="position: relative; left: {{40 * (1 - $index)}}px;">
+                        <div class="card-back">
+                           <span class="middle_center">
+                              <img src="/Content/Images/cards/back.png" />
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="name">
+                     <strong>{{opponent.Name}}</strong>
+                  </div>
+               </div>
+            </div>
+            <div class="game-table">
                <div class="card">
                   <div class="card-back">
                      <span class="middle_center">
@@ -41,9 +65,11 @@
                <div class="card" ng-show="DrawnCard != null">
                   <div ng-bind-html="DrawnCard | RenderCard"></div>
                </div>
+               <div class="card placeholder" ng-show="DrawnCard == null">
+               </div>
             </div>
 
-            <div class="hand-window flex-item">
+            <div class="hand-window">
                <div class="hand">
                   <div ng-repeat="card in Hand" style="position: relative; left: {{50 * (1 - $index)}}px;" ng-click="ToggleCardSelected(card)">
                      <div class="card" style="background-color: {{card.Colour}};" ng-class="{selected: card.IsSelected}" ng-bind-html="card | RenderCard"></div>
@@ -57,11 +83,6 @@
                   <button ng-click="Draw()" ng-show="IsMyTurn && !HasDrawn && !HasSelectedACard">Draw</button>
                   <button ng-click="EndTurn()" ng-show="HasDrawn && !HasSelectedACard">End Turn</button>
                </div>
-            </div>
-            <div class="notifications flex-item">
-               <ul>
-                  <li ng-repeat="notification in Notifications">{{notification}}</li>
-               </ul>
             </div>
          </div>
       </div>
