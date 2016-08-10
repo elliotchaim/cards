@@ -1,49 +1,73 @@
 ﻿<content name="main">
+   <div ng-controller="UserController">
+      <input type="text" ng-model="nameInput" on-return-key="SubmitName(nameInput)" placeholder="Please enter your name..." ng-show="Name == null" />
+   </div>
    <div ng-controller="GameController">
-      <div class="directory" ng-show="CurrentGameId == null">
-         <h1>Available Games</h1>
-         <div ng-repeat="game in AvailableGames">
-            <span>{{game.Name}} <a href ng-click="JoinGame(game.Id)">Join</a></span>
+      <div ng-show="Name != null">
+         <div class="game-directory" ng-show="CurrentGameId == null">
+            <h1>Available Games</h1>
+            <table>
+               <thead>
+                  <tr>
+                     <td>Name</td>
+                     <td>Players</td>
+                     <td>Actions</td>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="game in AvailableGames">
+                     <td>{{game.Name}}</td>
+                     <td>{{game.Players.length}} / 4</td>
+                     <td><button ng-click="JoinGame(game.Id)" ng-show="!game.Started">Join</button></td>
+                  </tr>
+               </tbody>
+            </table>
+            <input type="text" ng-model="NewGameName" on-return-key="CreateGame()" />
+            <button ng-click="CreateGame()">Create New Game</button>
          </div>
-         <input type="text" ng-model="NewGameName" />
-         <button ng-click="CreateGame()">Create New Game</button>
-      </div>
-      <div class="game" ng-show="CurrentGameId != null">
-         <h1 ng-show="IsMyTurn">YOUR TURN</h1>
-
-         <div class="game-table">
-            <div class="card">
-               <div class="card-back">
-                  <span class="middle_center">
-                     <img src="/Content/Images/cards/back.png" />
-                  </span>
+         <div class="game flex-container" ng-show="CurrentGameId != null">
+            <div class="game-table flex-item">
+               <div class="card">
+                  <div class="card-back">
+                     <span class="middle_center">
+                        <img src="/Content/Images/cards/back.png" />
+                     </span>
+                  </div>
+               </div>
+               <div class="card" ng-show="TopFaceUpCard != null">
+                  <div ng-bind-html="TopFaceUpCard | RenderCard"></div>
+               </div>
+               <br />
+               <div class="card" ng-show="DrawnCard != null">
+                  <div ng-bind-html="DrawnCard | RenderCard"></div>
                </div>
             </div>
-            <div class="card" ng-show="TopFaceUpCard != null">
-               <div ng-bind-html="TopFaceUpCard | RenderCard"></div>
-            </div>
-            <br />
-            <div class="card" ng-show="DrawnCard != null">
-               <div ng-bind-html="DrawnCard | RenderCard"></div>
-            </div>
-            </div>
 
-         <div class="hand-window">
-            <div ng-repeat="card in Hand" style="position: relative; left: {{50 * (1 - $index)}}px;" ng-click="ToggleCardSelected(card)">
-               <div class="card" style="background-color: {{card.Colour}};" ng-class="{selected: card.IsSelected}" ng-bind-html="card | RenderCard"></div>
+            <div class="hand-window flex-item">
+               <div class="hand">
+                  <div ng-repeat="card in Hand" style="position: relative; left: {{50 * (1 - $index)}}px;" ng-click="ToggleCardSelected(card)">
+                     <div class="card" style="background-color: {{card.Colour}};" ng-class="{selected: card.IsSelected}" ng-bind-html="card | RenderCard"></div>
+                  </div>
+               </div>
+               <div class="game-controls" ng-hide="GameAbandoned">
+                  <h1 ng-show="IsMyTurn">YOUR TURN</h1>
+                  <button ng-click="StartGame()" ng-show="!GameStarted">Start Game</button>
+                  <button ng-click="SortHand()" ng-show="GameStarted && !GameEnded">Sort</button>
+                  <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
+                  <button ng-click="Draw()" ng-show="IsMyTurn && !HasDrawn && !HasSelectedACard">Draw</button>
+                  <button ng-click="EndTurn()" ng-show="HasDrawn && !HasSelectedACard">End Turn</button>
+               </div>
             </div>
-            <div class="game-controls">
-               <button ng-click="StartGame()" ng-show="!GameStarted">Start Game</button>
-               <button ng-click="SortHand()" ng-show="GameStarted && !GameEnded">Sort</button>
-               <button ng-click="Swap()" ng-show="IsMyTurn && HasSelectedACard">Swap</button>
-               <button ng-click="Draw()" ng-show="IsMyTurn && !HasDrawn && !HasSelectedACard">Draw</button>
-               <button ng-click="EndTurn()" ng-show="HasDrawn && !HasSelectedACard">End Turn</button>
+            <div class="notifications flex-item">
+               <ul>
+                  <li ng-repeat="notification in Notifications">{{notification}}</li>
+               </ul>
             </div>
          </div>
       </div>
    </div>
 
-   <div class="chat-window" ng-controller="ChatController" >
+   <div class="chat-window" ng-controller="ChatController" hidden>
       <div class="chat-controls">
          <a ng-click="ToggleSettings()">
             <i class="fa fa-cog" aria-hidden="true"></i>

@@ -9,20 +9,51 @@
    {
       public override Task OnConnected()
       {
-         Clients.Caller.AddToAvailableGames( Kernel.Instance.AvailableGames() );
+         Clients.Caller.UpdateGamesDirectory( Kernel.Instance.AllGames() );
          return base.OnConnected();
+      }
+
+      public override Task OnDisconnected(bool stopCalled)
+      {
+         RemovePlayerFromGame();
+         UpdateGamesDirectory();
+         return base.OnDisconnected( stopCalled);
+      }
+
+      private void RemovePlayerFromGame()
+      {
+         var playerId = Context.ConnectionId;
+
+         if( !Kernel.Instance.PlayersGameId.Keys.Contains( playerId ) )
+            return;
+
+         var gameId = Kernel.Instance.PlayersGameId[ playerId ];
+         Groups.Remove( playerId, gameId );
+         Kernel.Instance.RemovePlayer( playerId, gameId );
+
+         if( Kernel.Instance.Games.Keys.Contains( gameId ) && Kernel.Instance.Games[gameId].Abandoned )
+         {
+            Clients.OthersInGroup( gameId ).AbandonGame( "A player has left the game." );
+         }
       }
 
       public void CreateGame( string name )
       {
-         Clients.All.AddToAvailableGames( new[] { Kernel.Instance.CreateGame( name ) } );
+         Kernel.Instance.CreateGame( name );
+         UpdateGamesDirectory();
       }
 
-      public void JoinGame( string gameId )
+      private void UpdateGamesDirectory()
       {
-         Kernel.Instance.AddToGame( gameId, Context.ConnectionId );
+         Clients.All.UpdateGamesDirectory( Kernel.Instance.AllGames() );
+      }
+
+      public void JoinGame( string gameId, string playerName )
+      {
+         Kernel.Instance.AddToGame( gameId, Context.ConnectionId, playerName );
          Groups.Add( Context.ConnectionId, gameId );
          Clients.Caller.AddToGame( gameId );
+         UpdateGamesDirectory();
       }
 
       public void Draw( string gameId )
@@ -37,6 +68,7 @@
 
          Kernel.Instance.Games[ gameId ].Started = true;
          Clients.Group( gameId ).GameStarted();
+         UpdateGamesDirectory();
 
          DealCards( gameId );
          AddToFaceUpPile( gameId, Kernel.Instance.Games[ gameId ].Deck.Draw() );

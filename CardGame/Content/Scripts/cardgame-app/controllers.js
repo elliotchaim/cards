@@ -1,14 +1,21 @@
 ﻿'use strict';
 
 angular.module('CardGameApp')
-.controller('GameController', ['$scope', 'PlayingCardService',
-    function ($scope, PlayingCardService) {
+.controller('UserController', ['$scope', '$rootScope',
+   function($scope, $rootScope) {
+      $rootScope.Name = null;
+
+      $scope.SubmitName = function(input) {
+         if (input) {
+            $rootScope.Name = input;
+         }
+      };
+   }
+])
+.controller('GameController', ['$scope', '$rootScope', 'PlayingCardService',
+    function ($scope, $rootScope, PlayingCardService) {
        var Configuration = {
           maxCardsInHand: 7
-       };
-
-       var CardToString = function (card) {
-          return card.Rank + ' of ' + card.Suit;
        };
 
        var GameHubProxy = hubConnection.createHubProxy('gameHub');
@@ -45,15 +52,23 @@ angular.module('CardGameApp')
           });
        });
 
-       GameHubProxy.on('AddToAvailableGames', function (games) {
+       GameHubProxy.on('UpdateGamesDirectory', function (availableGames) {
           $scope.$apply(function () {
-             Array.prototype.push.apply($scope.AvailableGames, games);
+             console.log(availableGames);
+             $scope.AvailableGames = availableGames;
           });
        });
 
        GameHubProxy.on('AddToGame', function (gameId) {
           $scope.$apply(function () {
              $scope.CurrentGameId = gameId;
+          });
+       });
+
+       GameHubProxy.on('AbandonGame', function (message) {
+          $scope.$apply(function () {
+             $scope.GameAbandoned = true;
+             $scope.Notifications.push(message);
           });
        });
 
@@ -72,9 +87,9 @@ angular.module('CardGameApp')
           PlayingCardService.sort($scope.Hand);
        };
 
-       $scope.StartGame = function () {
+       $scope.StartGame = function() {
           GameHubProxy.invoke('StartGame', $scope.CurrentGameId);
-       }
+       };
 
        $scope.Swap = function () {
           var cardInHandIndex = $scope.Hand.findIndex(x => x.IsSelected);
@@ -128,12 +143,11 @@ angular.module('CardGameApp')
        };
 
        $scope.JoinGame = function (id) {
-          GameHubProxy.invoke('JoinGame', id);
+          GameHubProxy.invoke('JoinGame', id, $rootScope.Name);
        };
 
        $scope.CurrentGameId = null;
        $scope.AvailableGames = [];
-
        $scope.Hand = [];
        $scope.FaceUpPile = [];
        $scope.TopFaceUpCard = null;
@@ -143,6 +157,8 @@ angular.module('CardGameApp')
        $scope.IsMyTurn = false;
        $scope.GameStarted = false;
        $scope.GameEnded = false;
+       $scope.GameAbandoned = false;
+       $scope.Notifications = [];
     }
 ])
 .controller('ChatController', ['$scope',

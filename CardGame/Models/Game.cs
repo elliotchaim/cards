@@ -10,6 +10,7 @@
       public List< Player > Players { get; set; } = new List<Player>();
       public CardDeck Deck { get; set; } = new CardDeck();
       public bool Started { get; set; } = false;
+      public bool Abandoned { get; set; } = false;
       public int CurrentTurnPlayer { get; set; } = 0;
    }
 }

@@ -3,30 +3,66 @@
    color: white;
 }
 
-div.hand-window {
-   position: fixed;
+.hand-window {
    bottom: 100px;
    left: 27.5vw;
-   min-width: 45vw;
+   max-width: 60vw;
    height: 25vh;
    background-color: rgba(0, 0, 0, 0.25);
    padding: 20px;
+   max-height: 150px;
 }
 
-div.card.selected { background-color: lightskyblue; }
+   .hand-window .hand {
+      position: relative;
+      padding: 15px;
+      display: flex;
+   }
 
-div.card {
+.card.selected {
+   background-color: lightskyblue;
+}
+
+.card {
    color: black;
    font-size: 5px;
    cursor: pointer;
-   -webkit-touch-callout: none; /* iOS Safari */
-   -webkit-user-select: none; /* Chrome/Safari/Opera */
-   -khtml-user-select: none; /* Konqueror */
-   -moz-user-select: none; /* Firefox */
-   -ms-user-select: none;
    user-select: none;
 }
 
-div.game-table div.card {
+.game-table .card {
    font-size: 10px;
 }
+
+.flex-container {
+   display: flex;
+   flex-direction: column;
+   flex-wrap: nowrap;
+   justify-content: space-between;
+   align-content: stretch;
+   align-items: stretch;
+}
+
+.flex-item:nth-child(1) {
+   order: 0;
+   flex: 0 1 auto;
+   align-self: center;
+}
+
+.flex-item:nth-child(2) {
+   order: 0;
+   flex: 1 0 auto;
+   align-self: center;
+}
+
+.flex-item:nth-child(3) {
+   order: 0;
+   flex: 0 1 auto;
+   align-self: center;
+}
+
+.flex-item:nth-child(4) {
+    order: 1;
+    flex: 0 1 auto;
+    align-self: stretch;
+    }
