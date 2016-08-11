@@ -163,8 +163,32 @@ angular.module('CardGameApp')
        $scope.HasWon = false;
     }
 ])
-.controller('ChatController', ['$scope',
-  function ($scope) {
+.controller('ChatController', ['$scope', '$rootScope',
+  function ($scope, $rootScope) {
+     var AddMessageToChatHistory = function (message) {
+        var lastMessage = $scope.ChatHistory[$scope.ChatHistory.length - 1];
+        if (lastMessage && lastMessage.Name === message.Name && lastMessage.Time === message.Time)
+           lastMessage.Message += ('<br />' + message.Message);
+        else
+           $scope.ChatHistory.push(message);
+     };
+
+     var adjustScroll = function () {
+        //console.log('adj')
+        //var chatHistory = document.getElementById('chat-history');
+        //var isScrolledToBottom = chatHistory.scrollHeight - chatHistory.clientHeight <= chatHistory.scrollTop + 100;
+
+        //console.log(isScrolledToBottom);
+        //console.log({
+        //   scrollHeight: chatHistory.scrollHeight,
+        //   clientHeight: chatHistory.clientHeight,
+        //   scrollTop: chatHistory.scrollTop
+        //});
+
+        //if (isScrolledToBottom)
+        //   chatHistory.scrollTop = chatHistory.scrollHeight - chatHistory.clientHeight;
+     };
+
      var ChatHubProxy = hubConnection.createHubProxy('chatHub');
 
      ChatHubProxy.on('ReceiveNewMessage', function (name, message, time) {
@@ -177,32 +201,17 @@ angular.module('CardGameApp')
         });
      });
 
-     var AddMessageToChatHistory = function (message) {
-        var lastMessage = $scope.ChatHistory[$scope.ChatHistory.length - 1];
-        if (lastMessage && lastMessage.Name === message.Name && lastMessage.Time === message.Time)
-           lastMessage.Message += ('<br />' + message.Message)
-        else
-           $scope.ChatHistory.push(message);
-     };
-
      $scope.SendMessage = function () {
-        ChatHubProxy.invoke('Send', $scope.Username, $scope.NewChatMessage);
+        ChatHubProxy.invoke('Send', $rootScope.Name, $scope.NewChatMessage);
         $scope.NewChatMessage = '';
+        adjustScroll();
      };
 
-     $scope.ToggleSettings = function () {
-        if (!$scope.HasUsername)
-           return;
-        $scope.IsSettingsHidden = !$scope.IsSettingsHidden;
+     $scope.ToggleChatClosed = function() {
+        $scope.ChatClosed = !$scope.ChatClosed;
      };
 
-     $scope.$watch('Username', function (newUsername) {
-        $scope.HasUsername = newUsername && newUsername !== '';
-     });
-
-     $scope.Username = '';
-     $scope.HasUsername = false;
-     $scope.IsSettingsHidden = false;
      $scope.ChatHistory = [];
+     $scope.ChatClosed = false;
   }
 ]);
