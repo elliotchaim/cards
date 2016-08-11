@@ -88,7 +88,7 @@
       </div>
    </div>
 
-   <div class="chat-window" ng-class="{closed: ChatClosed}" ng-controller="ChatController" ng-show="Name">
+   <div class="chat-window" ng-class="{closed: ChatClosed}" ng-controller="ChatController" ng-show="Name" ng-cloak>
       <div class="chat-header" ng-click="ToggleChatClosed()">
          <span>Chat</span>
       </div>
