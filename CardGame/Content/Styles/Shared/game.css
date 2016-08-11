@@ -2,6 +2,10 @@
    font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
 body {
    background: rgb(25, 103, 1);
    color: white;

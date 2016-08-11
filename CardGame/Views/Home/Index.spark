@@ -2,7 +2,7 @@
    <div ng-controller="UserController">
       <input type="text" ng-model="nameInput" on-return-key="SubmitName(nameInput)" placeholder="Please enter your name..." ng-show="Name == null" />
    </div>
-   <div ng-controller="GameController">
+   <div ng-controller="GameController" ng-cloak>
       <div id="winners-scrolly-scroll" ng-show="HasWon">
          <marquee scrollamount="50">YOU WIN!!1!</marquee>
       </div>
@@ -28,7 +28,7 @@
             <input type="text" ng-model="NewGameName" on-return-key="CreateGame()" />
             <button ng-click="CreateGame()">Create New Game</button>
          </div>
-         <div class="game" ng-show="CurrentGameId != null">
+         <div class="game" ng-show="CurrentGameId != null" >
             <div class="notifications">
                <ul>
                   <li ng-repeat="notification in Notifications">{{notification}}</li>
